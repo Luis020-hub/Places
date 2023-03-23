@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:places/providers/great_places.dart';
 import 'package:places/screens/place_form_screen.dart';
 import 'package:places/screens/places_list_screen.dart';
 import 'package:places/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,24 +14,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Great Places',
-      theme: ThemeData(
-        primaryColor: Colors.indigo,
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.indigo,
-          secondary: Colors.amber,
+    return ChangeNotifierProvider(
+      create: (ctx) => GreatPlaces(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Great Places',
+        theme: ThemeData(
+          primaryColor: Colors.indigo,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.indigo,
+            secondary: Colors.amber,
+          ),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.blueAccent[700],
+            textTheme: ButtonTextTheme.primary,
+          ),
         ),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blueAccent[700],
-          textTheme: ButtonTextTheme.primary,
-        ),
+        home: const PlacesListScreen(),
+        routes: {
+          AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
+        },
       ),
-      home: const PlacesListScreen(),
-      routes: {
-        AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
-      },
     );
   }
 }

@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import '../models/place.dart';
 
 class GreatPlaces with ChangeNotifier {
-  List<Place> _items = [];
+  final List<Place> _items = [];
 
   List<Place> get items {
     return [..._items];
@@ -13,7 +15,19 @@ class GreatPlaces with ChangeNotifier {
     return _items.length;
   }
 
-  Place getItem(int index) {
+  Place itemByIndex(int index) {
     return _items[index];
+  }
+
+  void addPlace(String title, File image) {
+    final newPlace = Place(
+      id: Random().nextDouble().toString(),
+      title: title,
+      image: image,
+      location: null,
+    );
+
+    _items.add(newPlace);
+    notifyListeners();
   }
 }
