@@ -3,21 +3,31 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:places/models/place.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({
-    super.key,
-    this.initialLocation = const PlaceLocation(
-      latitude: 37.422131,
-      longitude: -122.084801,
-    ),
-  });
-
   final PlaceLocation initialLocation;
+  final bool isReadOnly;
+
+  const MapScreen(
+      {this.initialLocation = const PlaceLocation(
+        latitude: 37.419857,
+        longitude: -122.078827,
+      ),
+      this.isReadOnly = false,
+      Key? key})
+      : super(key: key);
 
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedPosition;
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPosition = position;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +42,15 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 15,
         ),
+        onTap: widget.isReadOnly ? null : _selectPosition,
+        markers: _pickedPosition == null
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('p1'),
+                  position: _pickedPosition!,
+                ),
+              },
       ),
     );
   }
