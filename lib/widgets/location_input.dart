@@ -1,4 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:places/screens/map_screen.dart';
 import 'package:places/utils/location_util.dart';
@@ -27,13 +30,13 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _selectOnMap() async {
-    final selectedLocation = await Navigator.of(context).push(
+    final LatLng selectedPosition = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => const MapScreen(),
       ),
     );
 
-    if (selectedLocation == null) return;
+    print(selectedPosition.latitude);
   }
 
   @override
